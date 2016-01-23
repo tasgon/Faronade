@@ -49,6 +49,7 @@ public class Faronade extends Thread {
     }
 
     public void run() {
+        System.out.println("Faronade starting");
         active = true;
 
         try {
@@ -60,6 +61,7 @@ public class Faronade extends Thread {
             //socketOutput = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             socketInput = new Input(socket.getInputStream());
             socketOutput = new Output(socket.getOutputStream());
+            System.out.println("Streams established");
 
             while (active) {
                 if (socketInput.available() > 0) {
