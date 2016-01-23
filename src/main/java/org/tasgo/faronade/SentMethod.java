@@ -11,4 +11,9 @@ public class SentMethod {
         this.name = method;
         this.parameters = objs;
     }
+
+    public SentMethod(String method) {
+        this.name = method;
+        this.parameters = null;
+    }
 }

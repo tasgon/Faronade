@@ -34,4 +34,8 @@ public class NetworkMethod {
     public Object call(Object[] params) throws InvocationTargetException, IllegalAccessException {
         return method.invoke(target, params);
     }
+
+    public void call() throws InvocationTargetException, IllegalAccessException {
+        method.invoke(target);
+    }
 }

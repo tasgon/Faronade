@@ -36,12 +36,16 @@ public class Faronade extends Thread {
         registeredMethods.add(new NetworkMethod(obj, method, params));
     }
 
-    public Object invoke(Class<?> clazz, String method, Object... args) throws ConnectionNotEstablishedException {
+    public Object invoke(Class<?> clazz, String method, @Nullable Object... args) throws ConnectionNotEstablishedException {
         if (!active)
             throw new ConnectionNotEstablishedException();
 
         kryo.writeObject(socketOutput, new SentMethod(method, args));
         return kryo.readObject(socketInput, clazz);
+    }
+
+    public void invoke(String method, @Nullable Object... args) {
+        kryo.writeObject(socketOutput, new SentMethod(method, args));
     }
 
     public void run() {
@@ -61,8 +65,12 @@ public class Faronade extends Thread {
                 if (socketInput.available() > 0) {
                     SentMethod method = kryo.readObject(socketInput, SentMethod.class);
                     for (NetworkMethod networkMethod : registeredMethods) {
-                        if (networkMethod.methodName.equals(method.name))
-                            networkMethod.call(method.parameters);
+                        if (networkMethod.methodName.equals(method.name)) {
+                            if (method.parameters == null)
+                                networkMethod.call();
+                            else
+                                networkMethod.call(method.parameters);
+                        }
                     }
                 }
             }
