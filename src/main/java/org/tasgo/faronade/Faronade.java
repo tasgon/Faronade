@@ -24,7 +24,7 @@ public class Faronade extends Thread {
     private Input socketInput;
     private Output socketOutput;
 
-    public Faronade (int port) {
+    public Faronade(int port) {
         this.port = port;
     }
 
@@ -32,7 +32,7 @@ public class Faronade extends Thread {
         this.address = address;
     }
 
-    public void registerMethod(Object obj, @Nonnull String method, @Nullable Class<?> params) throws NoSuchMethodException, MultipleDeclarationException {
+    public void registerMethod(Object obj, @Nonnull String method, @Nullable Class<?>... params) throws NoSuchMethodException, MultipleDeclarationException {
         registeredMethods.add(new NetworkMethod(obj, method, params));
     }
 
